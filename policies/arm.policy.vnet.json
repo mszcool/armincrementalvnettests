@@ -1,0 +1,123 @@
+{
+    "properties": {
+        "displayName": "Deploys the bare VNET if it does not exist per tag assignment at the RG level",
+        "policyType": "Custom",
+        "mode": "All",
+        "parameters": {
+            "networkRgName": {
+                "type": "String",
+                "defaultValue": "landingzone-network"
+            },
+            "networkName": {
+                "type": "String",
+                "defaultValue": "[concat(subscription().displayName,'-network'))]"
+            },
+            "location": {
+                "type": "String",
+                "defaultValue": "westeurope"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Resources/subscriptions"
+                    },
+                    {
+                        "field": "tags['vnetRequired']",
+                        "equals": "true"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "deployIfNotExists",
+                "details": {
+                    "type": "Microsoft.Network/virtualNetworks",
+                    "name": "Deploy baseline Virtual Network into a subscription landing zone",
+                    "roleDefinitionIds": [
+                        "[concat('/subscriptions/', subscription().id, '/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c')]"
+                    ],
+                    "existenceCondition": {
+                        "allOf": [
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+                            },
+                            {
+                                "field": "name",
+                                "equals": "[parameters('networkRgName')]"
+                            },
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.Network/virtualNetworks"
+                            },
+                            {
+                                "field": "name",
+                                "equals": "[parameters('networkName')]"
+                            }
+                        ]
+                    },
+                    "deployment": {
+                        "properties": {
+                            "mode": "incremental",
+                            "template": {
+                                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                                "contentVersion": "1.0.0.0",
+                                "parameters": {
+                                    "networkRgName": {
+                                        "type": "string"
+                                    },
+                                    "networkName": {
+                                        "type": "string"
+                                    }
+                                },
+                                "resources": [
+                                    {
+                                        "type": "Microsoft.Resources/resourceGroups",
+                                        "apiVersion": "2018-05-01",
+                                        "name": "[parameters('networkRgName')]",
+                                        "location": "[parameters('location')]",
+                                        "properties": { }
+                                    },
+                                    {
+                                        "type": "Microsoft.Resources/deployments",
+                                        "apiVersion": "2019-10-01",
+                                        "name": "nestedVnetDeployment",
+                                        "resourceGroup": "[parameters('networkRgName')]",
+                                        "dependsOn": [
+                                            "[concat(parameters('networkRgName'))]"
+                                        ],
+                                        "properties": {
+                                            "mode": "Incremental",
+                                            "templateLink": {
+                                                "uri": "https://raw.githubusercontent.com/mszcool/armincrementalvnettests/master/templates/arm.vnet.deploy.1.json",
+                                                "contentVersion": "1.0.0.0"
+                                            },
+                                            "parameters": {
+                                                "vnetName": { "value": "[parameters('networkName')]" },
+                                                "location": { "value": "[parameters('location')]" },
+                                                "isNewDeployment": { "value": "true" }
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            "parameters": {
+                                "networkRgName": {
+                                    "value": "[parameters('networkRgName')]"
+                                },
+                                "networkName": {
+                                    "value:": "[parameters('networkName')]"
+                                },
+                                "location": {
+                                    "value": "[parameters('location')]"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
