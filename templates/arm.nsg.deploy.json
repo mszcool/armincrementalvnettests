@@ -1,0 +1,68 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "nsgName": {
+            "type": "string",
+            "defaultValue": "defaultNsg"
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "westeurope"
+        },
+        "isNewDeployment": {
+            "type": "bool",
+            "defaultValue": false
+        }
+    },
+    "variables": {
+        "rulesHttpIn": "httpIn",
+        "rulesHttpsIn": "httpsIn"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[parameters('nsgName')]",
+            "condition": "[parameters('isNewDeployment')]",
+            "apiVersion": "2020-04-01",
+            "location": "[parameters('location')]",
+            "properties": {  }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2020-04-01",
+            "name": "[concat(parameters('nsgName'),'/',variables('rulesHttpIn'))]",
+            "dependsOn": [
+                "[parameters('nsgName')]"
+            ],
+            "properties": {
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "sourceAddressPrefix": "*",
+                "destinationPortRange": "80",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 100,
+                "direction": "Inbound"
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2020-04-01",
+            "name": "[concat(parameters('nsgName'),'/',variables('rulesHttpsIn'))]",
+            "dependsOn": [
+                "[parameters('nsgName')]"
+            ],
+            "properties": {
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "sourceAddressPrefix": "*",
+                "destinationPortRange": "443",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 101,
+                "direction": "Inbound"
+            }            
+        }
+    ]
+}
