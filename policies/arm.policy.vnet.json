@@ -102,7 +102,7 @@
                                             "value": "[[parameters('networkRgName')]"
                                         },
                                         "networkName": {
-                                            "value:": "[[parameters('networkName')]"
+                                            "value": "[[parameters('networkName')]"
                                         },
                                         "location": {
                                             "value": "[[parameters('location')]"
