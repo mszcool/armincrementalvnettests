@@ -62,7 +62,7 @@
             "name": "[concat(parameters('vnetName'),'/subnet2')]",
             "dependsOn": [
                 "[parameters('vnetName')]",
-                "[concat(parameters('vnetName'),'/subnet1')]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets',parameters('vnetName'),'subnet1')]"
             ],
             "properties": {
                 "addressPrefix": "[parameters('defaultSubnetSpace2')]"

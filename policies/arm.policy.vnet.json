@@ -17,6 +17,10 @@
         "policyRoleDefinition": {
             "type": "string",
             "defaultValue": "[concat(subscription().id,'/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c')]"
+        },
+        "policyDeployLocation": {
+            "type": "string",
+            "defaultValue": "westeurope"
         }
     },
     "resources": [
@@ -90,7 +94,7 @@
                             },
                             "deploymentScope": "subscription",
                             "deployment": {
-                                "location": "[[parameters('location')]",
+                                "location": "[parameters('policyDeployLocation')]",
                                 "properties": {
                                     "mode": "incremental",
                                     "parameters": {
@@ -109,13 +113,16 @@
                                         "contentVersion": "1.0.0.0",
                                         "parameters": {
                                             "networkRgName": {
-                                                "type": "string"
+                                                "type": "String",
+                                                "defaultValue": "platform-vnet-rg"
                                             },
                                             "networkName": {
-                                                "type": "string"
+                                                "type": "String",
+                                                "defaultValue": "platform-vnet"
                                             },
                                             "location": {
-                                                "type": "string"
+                                                "type": "String",
+                                                "defaultValue": "westeurope"
                                             }
                                         },
                                         "resources": [
