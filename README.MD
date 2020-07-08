@@ -43,3 +43,22 @@ Deploying Azure Policy via ARM templates
   * Deploy the ARM template for the VNET
   * Make some changes after deployment through i.e. the portal
   * Re-deploy the template, again, and observe impact by trying out both, `true` and `false` for the parameter `isNewDeployment` when using the flavor `arm.vnet.deploy.1.json`in your tests.
+
+
+## Getting the role definitions from a management group through CLI
+
+Role definition IDs are required for deploying the policy definition. By default, the templates in this repository are using the subscription-level definitions instead of definitions from a management group. In case you need those, here's how to get them through a command prompt on either Windows or Linux:
+
+* First, install armclient, a really handy tool for executing requests against the ARM REST APIs. Note that the `az cli rest` is capable for REST-calls, but I did get them to work against subscription-level calls, only. Hence not applicable for management group scenarios at the time of writing this document (2020-07).
+   * For Windows, look [here](https://github.com/projectkudu/ARMClient)
+   * For Linux, look [here](https://github.com/yangl900/armclient-go) or [here](https://github.com/jeffhollan/armclient-go).
+
+* Next look at this documentation to understand, how-to retrieve role definitions using the REST API (click [here](https://docs.microsoft.com/en-us/azure/role-based-access-control/role-definitions-list#rest-api)).
+
+* With a simple call such as the following one, you can use armclient to retrieve the role definitions for a management group:
+   ``` bash
+   # Login if not done, yet (follows same process as Azure CLI)
+   armclient token
+   # Then retrieve the role definitions (returns JSON)
+   armclient get https://management.azure.com/providers/Microsoft.Management/managementGroups/MarioSzp_MG/providers/Microsoft.Authorization/roleDefinitions?api-version=2015-07-01
+   ```

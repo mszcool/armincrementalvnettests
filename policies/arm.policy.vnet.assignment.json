@@ -1,0 +1,32 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "assignmentName": {
+            "type": "string",
+            "defaultValue": "msz-platform-net-policy-assignment"
+        },
+        "assignmentLocation": {
+            "type": "string",
+            "defaultValue": "westeurope"
+        },
+        "policyDefinitionID": {
+            "type": "string"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "apiVersion": "2019-09-01",
+            "name": "[parameters('assignmentName')]",
+            "location": "[parameters('assignmentLocation')]",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "scope": "[subscription().id]", 
+                "policyDefinitionId": "[parameters('policyDefinitionID')]"
+            }
+        }
+    ]
+}
