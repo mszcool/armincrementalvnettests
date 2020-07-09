@@ -1,0 +1,72 @@
+{
+    "kind": "template",
+    "type": "Microsoft.Blueprint/blueprints/artifacts",
+    "name": "vnet-lz",
+    "properties": {
+        "dependsOn": [],
+        "displayName": "mszCool Landingzone Baseline Networking Sample Blueprint Artefact",
+        "description": "",
+        "parameters": {
+            "vnetName": {
+                "value": "landingzone-network-bp"
+            },
+            "location": {
+                "value": "[parameters('Blueprint_baseLocation')]"
+            },
+            "isNewDeployment": {
+                "value": "[parameters('Blueprint_isNewDeployment')]"
+            }
+        },
+        "resourceGroup": "baseline-network-rg",
+        "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+                "vnetName": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "isNewDeployment": {
+                    "type": "bool"
+                }
+            },
+            "resources": [
+                {
+                    "type": "Microsoft.Resources/deployments",
+                    "apiVersion": "2019-10-01",
+                    "name": "nestedVnetDeployment",
+                    "resourceGroup": "[resourceGroup().name]",
+                    "properties": {
+                        "mode": "Incremental",
+                        "templateLink": {
+                            "uri": "https://raw.githubusercontent.com/mszcool/armincrementalvnettests/master/templates/arm.vnet.deploy.1.json",
+                            "contentVersion": "1.0.0.0"
+                        },
+                        "parameters": {
+                            "vnetName": {
+                                "value": "[parameters('networkName')]"
+                            },
+                            "location": {
+                                "value": "[parameters('location')]"
+                            },
+                            "isNewDeployment": {
+                                "value": "[parameters('isNewDeployment')]"
+                            }
+                        }
+                    }
+                },
+                {
+                    "type": "Microsoft.Network/networkWatchers",
+                    "apiVersion": "2020-04-01",
+                    "name": "[concat(parameters('vnetName'),'-nwatcher')]",
+                    "location": "[parameters('Blueprint_baseLocation')]",
+                    "dependsOn": [
+                        "nestedVnetDeployment"
+                    ]
+                }
+            ]
+        }
+    }
+}

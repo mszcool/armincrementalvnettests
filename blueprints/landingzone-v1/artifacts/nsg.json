@@ -1,0 +1,63 @@
+{
+    "type": "Microsoft.Blueprint/blueprints/artifacts",
+    "kind": "template",
+    "name": "nsg-lz",
+    "properties": {
+        "dependsOn": [],
+        "displayName": "mszCool Landingzone Baseline NSG Sample Blueprint Artefact",
+        "description": "",
+        "parameters": {
+            "nsgName": {
+                "value": "landingzone-nsg-bp"
+            },
+            "location": {
+                "value": "[parameters('Blueprint_baseLocation')]"
+            },
+            "isNewDeployment": {
+                "value": "[parameters('Blueprint_isNewDeployment')]"
+            }
+        },
+        "resourceGroup": "baseline-network-rg",
+        "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+                "nsgName": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "isNewDeployment": {
+                    "type": "bool"
+                }
+            },
+            "resources": [
+                {
+                    "type": "Microsoft.Resources/deployments",
+                    "apiVersion": "2019-10-01",
+                    "name": "nestedNsgDeployment",
+                    "resourceGroup": "[resourceGroup().name]",
+                    "properties": {
+                        "mode": "Incremental",
+                        "templateLink": {
+                            "uri": "https://raw.githubusercontent.com/mszcool/armincrementalvnettests/master/templates/arm.nsg.deploy.json",
+                            "contentVersion": "1.0.0.0"
+                        },
+                        "parameters": {
+                            "vnetName": {
+                                "value": "[parameters('nsgName')]"
+                            },
+                            "location": {
+                                "value": "[parameters('location')]"
+                            },
+                            "isNewDeployment": {
+                                "value": "[parameters('isNewDeployment')]"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

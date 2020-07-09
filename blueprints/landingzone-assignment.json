@@ -6,16 +6,16 @@
         "type": "userAssigned",
         "tenantId": "xyz",
         "userAssignedIdentities": {
-            "xyz" : { }
+            "xyz_id" : { }
         }
     },
     "properties": {
-        "blueprintId": "",
+        "blueprintId": "bp_id",
         "locks": {
             "mode": "allResourcesDoNotDelete"
         },
         "resourceGroups": {
-            "landingzone-network": {
+            "baseline-network-rg": {
                 "location": "westeurope"
             }
         },
