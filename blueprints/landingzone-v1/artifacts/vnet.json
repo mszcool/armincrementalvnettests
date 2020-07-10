@@ -62,6 +62,7 @@
                     "apiVersion": "2020-04-01",
                     "name": "[concat(parameters('vnetName'),'-nwatcher')]",
                     "location": "[parameters('location')]",
+                    "condition": "[parameters('isNewDeployment')]",
                     "dependsOn": [
                         "nestedVnetDeployment"
                     ]
