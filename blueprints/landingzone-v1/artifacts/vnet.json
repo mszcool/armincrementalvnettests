@@ -61,7 +61,7 @@
                     "type": "Microsoft.Network/networkWatchers",
                     "apiVersion": "2020-04-01",
                     "name": "[concat(parameters('vnetName'),'-nwatcher')]",
-                    "location": "[parameters('Blueprint_baseLocation')]",
+                    "location": "[parameters('location')]",
                     "dependsOn": [
                         "nestedVnetDeployment"
                     ]
