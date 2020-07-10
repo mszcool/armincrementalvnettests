@@ -8,7 +8,7 @@
         "description": "",
         "parameters": {
             "nsgName": {
-                "value": "landingzone-nsg-bp"
+                "value": "[concat('nsg-bp-', parameters('Blueprint_baseLocation'))]"
             },
             "location": {
                 "value": "[parameters('Blueprint_baseLocation')]"
