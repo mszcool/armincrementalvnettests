@@ -25,6 +25,9 @@
             },
             "Blueprint_isNewDeployment": {
                 "value": true
+            },
+            "Blueprint_deploySubWideResources": {
+                "value": false
             }
         }
     }
