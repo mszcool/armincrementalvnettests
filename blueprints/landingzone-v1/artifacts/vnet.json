@@ -46,7 +46,7 @@
                         },
                         "parameters": {
                             "vnetName": {
-                                "value": "[parameters('networkName')]"
+                                "value": "[parameters('vnetName')]"
                             },
                             "location": {
                                 "value": "[parameters('location')]"
