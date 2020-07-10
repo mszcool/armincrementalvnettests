@@ -8,7 +8,7 @@
         "description": "",
         "parameters": {
             "vnetName": {
-                "value": "landingzone-network-bp"
+                "value": "[concat('network-bp-', parameters('Blueprint_baseLocation'))]"
             },
             "location": {
                 "value": "[parameters('Blueprint_baseLocation')]"
@@ -60,7 +60,7 @@
                 {
                     "type": "Microsoft.Network/networkWatchers",
                     "apiVersion": "2020-04-01",
-                    "name": "[concat(parameters('vnetName'),'-nwatcher')]",
+                    "name": "[concat('nwatcher-', parameters('location'))]",
                     "location": "[parameters('location')]",
                     "condition": "[parameters('isNewDeployment')]",
                     "dependsOn": [
