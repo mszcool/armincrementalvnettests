@@ -44,7 +44,7 @@
             "apiVersion": "2020-04-01",
             "name": "[parameters('vnetName')]",
             "location": "[parameters('location')]",
-            "condition": "[greaterOrEquals(parameters('upgradeFrom'), -1)]",
+            "condition": "[lessOrEquals(parameters('upgradeFrom'), -1)]",
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
@@ -57,7 +57,7 @@
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2020-04-01",
             "name": "[concat(parameters('vnetName'),'/subnet1')]",
-            "condition": "[greaterOrEquals(parameters('upgradeFrom'), 0)]",
+            "condition": "[lessOrEquals(parameters('upgradeFrom'), 0)]",
             "dependsOn": [
                 "[parameters('vnetName')]"
             ],
@@ -75,7 +75,7 @@
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2020-04-01",
             "name": "[concat(parameters('vnetName'),'/subnet2')]",
-            "condition": "[greaterOrEquals(parameters('upgradeFrom'), 0)]",
+            "condition": "[lessOrEquals(parameters('upgradeFrom'), 0)]",
             "dependsOn": [
                 "[parameters('vnetName')]",
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets',parameters('vnetName'),'subnet1')]"
