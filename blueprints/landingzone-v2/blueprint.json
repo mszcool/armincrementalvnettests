@@ -1,0 +1,42 @@
+{
+    "type": "Microsoft.Blueprint/blueprints",
+    "name": "landingzone-baseline-blueprint",
+    "properties": {
+        "targetScope": "subscription",
+        "displayName": "mszCool Landing Zone Baseline Blueprint Sample",
+        "description": "A sample blueprint to deploy components for a Networking Landing Zone into a target subscription",
+        "parameters": {
+            "Blueprint_baseLocation": {
+                "type": "string",
+                "allowedValues": [
+                    "westeurope",
+                    "northeurope",
+                    "westus2",
+                    "eastus2",
+                    "southeastasia",
+                    "australiaeast"
+                ]
+            },
+            "Blueprint_isNewDeployment": {
+                "type": "bool",
+                "metadata": {
+                    "displayName": "New deployment or Upgrade?",
+                    "description": "Specifies if the assignment happens on a newly deployed landing zone or on a landing zone that needs to be upgraded."
+                }
+            },
+            "Blueprint_deploySubWideResources": {
+                "type": "bool",
+                "metadata": {
+                    "displayName": "Deploy subscription-wide resources",
+                    "description": "Determines, if subscription wide resources that can deployed 1x per subscription, only, should be deployed with the blueprint or not."
+                }
+            }
+        },
+        "resourceGroups": {
+            "baseline-network-rg": {
+                "name": "baseline-network-rg",
+                "displayName": "Baseline Network Resource Group"
+            }
+        }
+    }
+}

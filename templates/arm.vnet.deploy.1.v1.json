@@ -18,6 +18,14 @@
             "type": "string",
             "defaultValue": "10.0.2.0/24"
         },
+        "defaultRouteId": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "defaultNsgId": {
+            "type": "string",
+            "defaultValue": ""
+        },
         "location": {
             "type": "string",
             "defaultValue": "[resourceGroup().location]"
@@ -53,7 +61,13 @@
                 "[parameters('vnetName')]"
             ],
             "properties": {
-                "addressPrefix": "[parameters('defaultSubnetSpace1')]"
+                "addressPrefix": "[parameters('defaultSubnetSpace1')]",
+                "routeTable": {
+                    "id": "[parameters('defaultRouteId')]"
+                },
+                "networkSecurityGroup": {
+                    "id": "[parameters('defaultNsgId')]"
+                }
             }
         },
         {
@@ -65,7 +79,13 @@
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets',parameters('vnetName'),'subnet1')]"
             ],
             "properties": {
-                "addressPrefix": "[parameters('defaultSubnetSpace2')]"
+                "addressPrefix": "[parameters('defaultSubnetSpace2')]",
+                "routeTable": {
+                    "id": "[parameters('defaultRouteId')]"
+                },
+                "networkSecurityGroup": {
+                    "id": "[parameters('defaultNsgId')]"
+                }
             }
         }
     ]

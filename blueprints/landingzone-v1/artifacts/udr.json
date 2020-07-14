@@ -1,14 +1,14 @@
 {
     "type": "Microsoft.Blueprint/blueprints/artifacts",
     "kind": "template",
-    "name": "nsg-lz",
+    "name": "udr-lz",
     "properties": {
         "dependsOn": [],
-        "displayName": "mszCool Landingzone Baseline NSG Sample Blueprint Artefact",
+        "displayName": "mszCool Landingzone Baseline UDR Sample Blueprint Artefact",
         "description": "",
         "parameters": {
-            "nsgName": {
-                "value": "[concat('nsg-bp-', parameters('Blueprint_baseLocation'))]"
+            "udrName": {
+                "value": "[concat('udr-bp-', parameters('Blueprint_baseLocation'))]"
             },
             "location": {
                 "value": "[parameters('Blueprint_baseLocation')]"
@@ -22,7 +22,7 @@
             "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
             "contentVersion": "1.0.0.0",
             "parameters": {
-                "nsgName": {
+                "udrName": {
                     "type": "string"
                 },
                 "location": {
@@ -36,17 +36,17 @@
                 {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "nestedNsgDeployment",
+                    "name": "nestedUdrDeployment",
                     "resourceGroup": "[resourceGroup().name]",
                     "properties": {
                         "mode": "Incremental",
                         "templateLink": {
-                            "uri": "https://raw.githubusercontent.com/mszcool/armincrementalvnettests/master/templates/arm.nsg.deploy.v1.json",
+                            "uri": "https://raw.githubusercontent.com/mszcool/armincrementalvnettests/master/templates/arm.udr.deploy.v1.json",
                             "contentVersion": "1.0.0.0"
                         },
                         "parameters": {
-                            "nsgName": {
-                                "value": "[parameters('nsgName')]"
+                            "routeTableName": {
+                                "value": "[parameters('udrName')]"
                             },
                             "location": {
                                 "value": "[parameters('location')]"
@@ -59,10 +59,10 @@
                 }
             ],
             "outputs": {
-                "nsgResourceId": {
+                "udrResourceId": {
                     "type": "string",
-                    "value": "[reference('nestedNsgDeployment').outputs.nsgResourceId.value]"
-                }                
+                    "value": "[reference('nestedUdrDeployment').outputs.udrResourceId.value]"
+                }
             }
         }
     }

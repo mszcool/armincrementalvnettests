@@ -41,7 +41,7 @@
                     "properties": {
                         "mode": "Incremental",
                         "templateLink": {
-                            "uri": "https://raw.githubusercontent.com/mszcool/armincrementalvnettests/master/templates/arm.nsg.deploy.v1.json",
+                            "uri": "https://raw.githubusercontent.com/mszcool/armincrementalvnettests/master/templates/arm.nsg.deploy.v2.json",
                             "contentVersion": "1.0.0.0"
                         },
                         "parameters": {

@@ -40,7 +40,7 @@
                 "location": {
                     "type": "string"
                 },
-                "routeId": {
+                "udrId": {
                     "type": "string"
                 },
                 "nsgId": {
@@ -62,7 +62,7 @@
                     "properties": {
                         "mode": "Incremental",
                         "templateLink": {
-                            "uri": "https://raw.githubusercontent.com/mszcool/armincrementalvnettests/master/templates/arm.vnet.deploy.1.v1.json",
+                            "uri": "https://raw.githubusercontent.com/mszcool/armincrementalvnettests/master/templates/arm.vnet.deploy.1.v2.json",
                             "contentVersion": "1.0.0.0"
                         },
                         "parameters": {
@@ -73,8 +73,8 @@
                                 "value": "[parameters('location')]"
                             },
                             "defaultRouteId": {
-                                "value": "[parameters('routeId')]"
-                            }, 
+                                "value": "[parameters('udrId')]"
+                            },
                             "defaultNsgId": {
                                 "value": "[parameters('nsgId')]"
                             },
