@@ -44,5 +44,11 @@
                 "nextHopIpAddress": "[parameters('customDefaultNextHopIp')]"
             }
         }
-    ]
+    ],
+    "outputs": {
+        "udrResourceId": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Network/routeTables', parameters('routeTableName'))]"
+        }
+    }
 }

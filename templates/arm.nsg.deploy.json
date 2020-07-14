@@ -64,5 +64,11 @@
                 "direction": "Inbound"
             }            
         }
-    ]
+    ],
+    "outputs": {
+        "nsgResourceId": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Network/routeTables', parameters('nsgName'))]"
+        }
+    }
 }
