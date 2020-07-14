@@ -23,8 +23,8 @@
             "Blueprint_baseLocation": {
                 "value": "westeurope"
             },
-            "Blueprint_isNewDeployment": {
-                "value": true
+            "Blueprint_upgradeFrom": {
+                "value": 0
             },
             "Blueprint_deploySubWideResources": {
                 "value": false

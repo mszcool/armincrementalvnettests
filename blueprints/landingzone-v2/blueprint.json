@@ -17,11 +17,11 @@
                     "australiaeast"
                 ]
             },
-            "Blueprint_isNewDeployment": {
-                "type": "bool",
+            "Blueprint_upgradeFrom": {
+                "type": "int",
                 "metadata": {
-                    "displayName": "New deployment or Upgrade?",
-                    "description": "Specifies if the assignment happens on a newly deployed landing zone or on a landing zone that needs to be upgraded."
+                    "displayName": "Upgrade from previous version of a blueprint?",
+                    "description": "Specifies from which previous version of the blueprint an upgrade is going to happen. Use 0 if this is a new assignment."
                 }
             },
             "Blueprint_deploySubWideResources": {

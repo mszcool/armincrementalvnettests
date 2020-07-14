@@ -10,9 +10,9 @@
             "type": "string",
             "defaultValue": "westeurope"
         },
-        "isNewDeployment": {
-            "type": "bool",
-            "defaultValue": false
+        "upgradeFrom": {
+            "type": "int",
+            "defaultValue": 0
         }
     },
     "variables": {
@@ -23,7 +23,7 @@
         {
             "type": "Microsoft.Network/networkSecurityGroups",
             "name": "[parameters('nsgName')]",
-            "condition": "[parameters('isNewDeployment')]",
+            "condition": "[lessOrEquals(parameters('upgradeFrom'), -1)]",
             "apiVersion": "2020-04-01",
             "location": "[parameters('location')]",
             "properties": {  }
@@ -32,6 +32,7 @@
             "type": "Microsoft.Network/networkSecurityGroups/securityRules",
             "apiVersion": "2020-04-01",
             "name": "[concat(parameters('nsgName'),'/',variables('rulesHttpIn'))]",
+            "condition": "[lessOrEquals(parameters('upgradeFrom'), 0)]",
             "dependsOn": [
                 "[parameters('nsgName')]"
             ],
@@ -50,6 +51,7 @@
             "type": "Microsoft.Network/networkSecurityGroups/securityRules",
             "apiVersion": "2020-04-01",
             "name": "[concat(parameters('nsgName'),'/',variables('rulesHttpsIn'))]",
+            "condition": "[lessOrEquals(parameters('upgradeFrom'), 0)]",
             "dependsOn": [
                 "[parameters('nsgName')]"
             ],

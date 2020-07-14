@@ -22,8 +22,8 @@
             "nsgId": {
                 "value": "[artifacts('nsg').outputs.nsgResourceId]"
             },
-            "isNewDeployment": {
-                "value": "[parameters('Blueprint_isNewDeployment')]"
+            "upgradeFrom": {
+                "value": "[parameters('Blueprint_upgradeFrom')]"
             },
             "deployNetworkWatcher": {
                 "value": "[parameters('Blueprint_deploySubWideResources')]"
@@ -46,8 +46,8 @@
                 "nsgId": {
                     "type": "string"
                 },
-                "isNewDeployment": {
-                    "type": "bool"
+                "upgradeFrom": {
+                    "type": "int"
                 },
                 "deployNetworkWatcher": {
                     "type": "bool"
@@ -73,13 +73,13 @@
                                 "value": "[parameters('location')]"
                             },
                             "defaultRouteId": {
-                                "value": "[parameters('routeId')]"
+                                "value": "[parameters('udrId')]"
                             }, 
                             "defaultNsgId": {
                                 "value": "[parameters('nsgId')]"
                             },
-                            "isNewDeployment": {
-                                "value": "[parameters('isNewDeployment')]"
+                            "upgradeFrom": {
+                                "value": "[parameters('upgradeFrom')]"
                             }
                         }
                     }

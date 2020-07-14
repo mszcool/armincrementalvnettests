@@ -13,8 +13,8 @@
             "location": {
                 "value": "[parameters('Blueprint_baseLocation')]"
             },
-            "isNewDeployment": {
-                "value": "[parameters('Blueprint_isNewDeployment')]"
+            "upgradeFrom": {
+                "value": "[parameters('Blueprint_upgradeFrom')]"
             }
         },
         "resourceGroup": "baseline-network-rg",
@@ -28,8 +28,8 @@
                 "location": {
                     "type": "string"
                 },
-                "isNewDeployment": {
-                    "type": "bool"
+                "upgradeFrom": {
+                    "type": "int"
                 }
             },
             "resources": [
@@ -51,8 +51,8 @@
                             "location": {
                                 "value": "[parameters('location')]"
                             },
-                            "isNewDeployment": {
-                                "value": "[parameters('isNewDeployment')]"
+                            "upgradeFrom": {
+                                "value": "[parameters('upgradeFrom')]"
                             }
                         }
                     }

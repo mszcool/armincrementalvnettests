@@ -10,9 +10,9 @@
             "type": "string",
             "defaultValue": "westeurope"
         },
-        "isNewDeployment": {
-            "type": "bool",
-            "defaultValue": false
+        "upgradeFrom": {
+            "type": "int",
+            "defaultValue": 0
         },
         "customDefaultNextHopIp": {
             "type": "string",
@@ -26,7 +26,7 @@
         {
             "type": "Microsoft.Network/routeTables",
             "apiVersion": "2020-04-01",
-            "condition": "[parameters('isNewDeployment')]",
+            "condition": "[lessOrEquals(parameters('upgradeFrom'), -1)]",
             "name": "[parameters('routeTableName')]",
             "location": "[parameters('location')]",
             "properties": { }
@@ -35,6 +35,7 @@
             "type": "Microsoft.Network/routeTables/routes",
             "apiVersion": "2020-04-01",
             "name": "[concat(parameters('routeTableName'),'/',variables('defaultRouteName'))]",
+            "condition": "[lessOrEquals(parameters('upgradeFrom'), 0)]",
             "dependsOn": [
                 "[parameters('routeTableName')]"
             ],
