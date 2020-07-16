@@ -1,0 +1,82 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sqlSrvName": {
+            "type": "string",
+            "defaultValue": "mszsqltestsrv",
+            "metadata": {
+                "description": "description"
+            }
+        },
+        "sqlDbName": {
+            "type": "string",
+            "defaultValue": "mszsqltestdb",
+            "metadata": {
+                "description": "description"
+            }
+        },
+        "adminUser": {
+            "type": "string",
+            "defaultValue": "mszsqltestadm",
+            "metadata": {
+                "description": "description"
+            }
+        },
+        "adminPwd": {
+            "type": "string",
+            "metadata": {
+                "description": "description"
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "name": "[parameters('sqlSrvName')]",
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2014-04-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "testSqlServer"
+            },
+            "properties": {
+                "administratorLogin": "[parameters('adminUser')]",
+                "administratorLoginPassword": "[parameters('adminPwd')]"
+            },
+            "resources": [
+                {
+                    "type": "firewallRules",
+                    "apiVersion": "2014-04-01",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', parameters('sqlSrvName'))]"
+                    ],
+                    "location": "[resourceGroup().location]",
+                    "name": "AllowAllWindowsAzureIps",
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "0.0.0.0"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "[concat(parameters('sqlSrvName'),'/',parameters('sqlDbName'))]",
+            "type": "Microsoft.Sql/servers/databases",
+            "apiVersion": "2014-04-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "[parameters('sqlDbName')]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers',parameters('sqlSrvName'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "edition": "Basic",
+                "maxSizeBytes": "1073741824",
+                "requestedServiceObjectiveName": "Basic"
+            }
+        }
+    ]
+}
