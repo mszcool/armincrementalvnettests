@@ -195,6 +195,18 @@
                                                         "upgradeFrom": { "value": -1 }
                                                     }
                                                 }
+                                            },
+                                            {
+                                                "type": "Microsoft.Resources/tags",
+                                                "apiVersion": "2019-10-01",
+                                                "name": "default",
+                                                "dependsOn": [],
+                                                "properties": {
+                                                    "tags": {
+                                                        "vnetRequired": true,
+                                                        "currentPlatformVersion": 1
+                                                    }
+                                                }
                                             }
                                         ]
                                     }
