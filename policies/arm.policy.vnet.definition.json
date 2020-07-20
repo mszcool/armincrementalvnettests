@@ -136,21 +136,63 @@
                                             {
                                                 "type": "Microsoft.Resources/deployments",
                                                 "apiVersion": "2019-10-01",
-                                                "name": "nestedVnetDeployment",
+                                                "name": "nestedNsgDeployment",
                                                 "resourceGroup": "[[parameters('networkRgName')]",
                                                 "dependsOn": [
-                                                    "[[concat(parameters('networkRgName'))]"
+                                                    "[[resourceId('Microsoft.Resources/resourceGroups',parameters('networkRgName'))]"
                                                 ],
                                                 "properties": {
                                                     "mode": "Incremental",
                                                     "templateLink": {
-                                                        "uri": "https://raw.githubusercontent.com/mszcool/armincrementalvnettests/master/templates/arm.vnet.deploy.1.json",
+                                                        "uri": "https://raw.githubusercontent.com/mszcool/armincrementalvnettests/master/templates/arm.nsg.deploy.v1.json",
+                                                        "contentVersion": "1.0.0.0"
+                                                    },
+                                                    "parameters": {
+                                                        "upgradeFrom": { "value": -1 }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "type": "Microsoft.Resources/deployments",
+                                                "apiVersion": "2019-10-01",
+                                                "name": "nestedUdrDeployment",
+                                                "resourceGroup": "[[parameters('networkRgName')]",
+                                                "dependsOn": [
+                                                    "[[resourceId('Microsoft.Resources/resourceGroups',parameters('networkRgName'))]"
+                                                ],
+                                                "properties": {
+                                                    "mode": "Incremental",
+                                                    "templateLink": {
+                                                        "uri": "https://raw.githubusercontent.com/mszcool/armincrementalvnettests/master/templates/arm.udr.deploy.v1.json",
+                                                        "contentVersion": "1.0.0.0"
+                                                    },
+                                                    "parameters": {
+                                                        "upgradeFrom": { "value": -1 }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "type": "Microsoft.Resources/deployments",
+                                                "apiVersion": "2019-10-01",
+                                                "name": "nestedVnetDeployment",
+                                                "resourceGroup": "[[parameters('networkRgName')]",
+                                                "dependsOn": [
+                                                    "[[resourceId('Microsoft.Resources/resourceGroups',parameters('networkRgName'))]",
+                                                    "nestedNsgDeployment",
+                                                    "nestedUdrDeployment"
+                                                ],
+                                                "properties": {
+                                                    "mode": "Incremental",
+                                                    "templateLink": {
+                                                        "uri": "https://raw.githubusercontent.com/mszcool/armincrementalvnettests/master/templates/arm.vnet.deploy.1.v1.json",
                                                         "contentVersion": "1.0.0.0"
                                                     },
                                                     "parameters": {
                                                         "vnetName": { "value": "[[parameters('networkName')]" },
                                                         "location": { "value": "[[parameters('location')]" },
-                                                        "isNewDeployment": { "value": true }
+                                                        "defaultNsgId": { "value": "[[reference('nestedNsgDeployment').outputs.nsgResourceId.value]" },
+                                                        "defaultRouteId": { "value": "[[reference('nestedUdrDeployment').outputs.udrResourceId.value]" },
+                                                        "upgradeFrom": { "value": -1 }
                                                     }
                                                 }
                                             }
