@@ -60,6 +60,10 @@
                             {
                                 "field": "tags['vnetRequired']",
                                 "equals": "true"
+                            },
+                            {
+                                "field": "tags['currentPlatformVersion']",
+                                "equals": 1
                             }
                         ]
                     },
@@ -97,6 +101,9 @@
                                         },
                                         "location": {
                                             "value": "[[parameters('location')]"
+                                        },
+                                        "upgradeFrom": {
+                                            "value": 1
                                         }
                                     },
                                     "template": {
